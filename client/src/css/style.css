@@ -1,0 +1,55 @@
+body {
+  text-align: center;
+}
+
+.main-content {
+  margin-top: 20px;
+}
+
+.button-container {
+  margin-top: 10px;
+}
+
+#main-btn {
+  width: 200px;
+}
+
+.results-container {
+  margin: 0 auto;
+  margin-top: 40px;
+  max-width: 80%;
+  padding: 20px;
+  border: 1px solid #dee2e6;
+  border-radius: 10px;
+}
+
+.results-summary {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.results-summary-header {
+  font-weight: bold;
+}
+
+.spinner-container {
+  margin-top: 40px;
+}
+
+.spinner-text {
+  font-weight: bold;
+  font-size: 36px;
+  margin-top: 20px;
+}
+
+.table {
+  margin-bottom: 0;
+}
+
+.table th {
+  border-top: none;
+}
+
+tfoot {
+  border-top: 2px solid #dee2e6;
+}

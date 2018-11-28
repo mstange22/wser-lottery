@@ -9,3 +9,6 @@ I'm not really crazy about the multiple calls to `populateTicketArray()` with ha
 * Build an array with ticket counts and build the range dynamically before each function call.
 
 If I needed to reuse this code for other values or successive years, I would definitely add range constants and use those for the initialization and simulation logic.
+
+To run the simulation, clone this repo and run `npm install` at the root to install node modules.  You may also have to run `npm install` in the client folder.
+Then run `npm run start` or `yarn start`.

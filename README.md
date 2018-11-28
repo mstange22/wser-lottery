@@ -1,4 +1,4 @@
-#Western States Lottery Simulation in React / Express / Node
+# Western States Lottery Simulation in React / Express / Node
 I saw a social media post about the 2018 Western States Lottery and shared it with Mailei.  She got the idea to run her own simulation and got hers up and running in python.  I decided to implement a solution in Javascript and add a front end.
 
 The calculation was freezing up the UI, so I moved the simulations over to a node / express server (see controllers/lotterController) and await the response with a spinner.

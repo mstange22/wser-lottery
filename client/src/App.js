@@ -1,11 +1,6 @@
 import React, { Component } from "react";
 import { PulseLoader } from 'react-spinners';
-import { library } from '@fortawesome/fontawesome-svg-core';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faChartBar } from '@fortawesome/free-solid-svg-icons';
 import API from './utils/API';
-
-library.add(faArrowLeft, faChartBar);
 
 class App extends Component {
   state = {
@@ -39,12 +34,17 @@ class App extends Component {
           simCounts: res.data.simCounts,
           totalWinners: Object.keys(res.data.simCounts).reduce((accum, k) => accum + res.data.simCounts[k].winners, 0),
           totalEntrants: Object.keys(res.data.simCounts).reduce((accum, k) => accum + res.data.simCounts[k].entrants, 0),
-          });
+        });
       });
   }
 
   renderResults = () => {
     if (!this.state.simComplete) return null;
+    const { draws } = this.state;
+    const aveDraws = (draws.reduce((accum, d) => accum + d, 0) / this.state.draws.length).toFixed(2);
+    const minDraws = Math.min(...draws);
+    const maxDraws = Math.max(...draws);
+
     return (
       <div className="results-container">
         <table className="table">
@@ -73,21 +73,20 @@ class App extends Component {
           <tfoot>
             <tr>
               <th scope="col">Totals</th>
-              <th scope="col">{this.state.totalEntrants}</th>
+              <th scope="col">{this.state.totalEntrants.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</th>
               <th scope="col">{this.state.totalWinners.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</th>
               <th scope="col">{((this.state.totalWinners / this.state.totalWinners) * 100).toFixed(2)}</th>
               <th scope="col">{(this.state.totalWinners / this.state.draws.length).toFixed(2)}</th>
-              <th scope="col">Odds %</th>
+              <th scope="col"> </th>
             </tr>
           </tfoot>
         </table>
         <div className="results-summary">
-          <span className="results-summary-header">{'Simulations completed: '}</span>{this.state.draws.length}<br />
-          <span className="results-summary-header">{'Average number of draws required: '}</span>{(this.state.draws
-            .reduce((accum, d) => accum + d, 0) / this.state.draws.length).toFixed(2)}<br />
-          <span className="results-summary-header">{'Minimum number of draws required: '}</span>{`${Math.min(...this.state.draws)}`}<br />
-          <span className="results-summary-header">{'Maximum number of draws required: '}</span>{`${Math.max(...this.state.draws)}`}<br />
-          <span className="results-summary-header">{'Total running time: '}</span>{`${this.end - this.start} ms`}
+          <span className="results-summary-header">{'Simulations completed: '}</span>{this.state.draws.length.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}<br />
+          <span className="results-summary-header">{'Average number of draws required: '}</span>{aveDraws}<br />
+          <span className="results-summary-header">{'Minimum number of draws required: '}</span>{minDraws}<br />
+          <span className="results-summary-header">{'Maximum number of draws required: '}</span>{maxDraws}<br />
+          <span className="results-summary-header">{'Total running time: '}</span>{`${(this.end - this.start).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} ms`}
         </div>
       </div>
     );

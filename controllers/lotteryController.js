@@ -1,13 +1,4 @@
-
-const t1 = [];
-const t2 = [];
-const t4 = [];
-const t8 = [];
-const t16 = [];
-const t32 = [];
-const t64 = [];
-let allTickets = [];
-
+let tickets = [];
 const ONE_TICKET = 3179;
 const TWO_TICKETS = 1261;
 const FOUR_TICKETS = 687;
@@ -15,16 +6,19 @@ const EIGHT_TICKETS = 444;
 const SIXTEEN_TICKETS = 186;
 const THIRTY_TWO_TICKETS = 93;
 const SIXTY_FOUR_TICKETS = 29;
+const NUM_SIMULATIONS = 100000;
 
-const populateArrays = (arr, numTickets, numEntrants, lower, upper) => {
+const populateTicketArray = (numTickets, numEntrants, lower, upper) => {
   const nums = [];
+  let counter = 0;
   for (let i = lower; i < upper; i++) {
     nums.push(i);
   }
-  while (arr.length < numEntrants * numTickets) {
+  while (counter < numEntrants * numTickets) {
     const index = Math.floor(Math.random() * nums.length);
     for (let j = 1; j <= numTickets; j++) {
-      arr.push(nums[index]);
+      tickets.push(nums[index]);
+      counter += 1;
     }
     nums.splice(index, 1);
   }
@@ -41,14 +35,14 @@ const doSimulation = () => {
     '32': { entrants: THIRTY_TWO_TICKETS, winners: 0 },
     '64': { entrants: SIXTY_FOUR_TICKETS, winners: 0 },
   };
-  for (let i = 0; i < 100000; i++) {
+  for (let i = 0; i < NUM_SIMULATIONS; i++) {
     const winners = {};
     let winnersCount = 0;
     let drawsCount = 0;
 
     while (winnersCount < 265) {
       drawsCount += 1;
-      const winner = allTickets[Math.floor(Math.random() * allTickets.length - 1)];
+      const winner = tickets[Math.floor(Math.random() * tickets.length - 1)];
       if (!winners[winner]) {
         winners[winner] = 1;
         winnersCount += 1;
@@ -72,15 +66,15 @@ const doSimulation = () => {
 
 module.exports = (app, watchStatsConnection, dbConnection) => {
   app.get('/init', (req, res) => {
-    populateArrays(t1, 1, ONE_TICKET, 1, 4000);
-    populateArrays(t2, 2, TWO_TICKETS, 4000, 6000);
-    populateArrays(t4, 4, FOUR_TICKETS, 6000, 7000);
-    populateArrays(t8, 8, EIGHT_TICKETS, 7000, 8000);
-    populateArrays(t16, 16, SIXTEEN_TICKETS, 8000, 9000);
-    populateArrays(t32, 32, THIRTY_TWO_TICKETS, 9000, 10000);
-    populateArrays(t64, 64, SIXTY_FOUR_TICKETS, 10000, 10500);
-    allTickets = [...t1, ...t2, ...t4, ...t8, ...t16, ...t32, ...t64];
-    res.json({ status: 'success', allTickets, length: allTickets.length });
+    populateTicketArray(1, ONE_TICKET, 1, 4000);
+    populateTicketArray(2, TWO_TICKETS, 4000, 6000);
+    populateTicketArray(4, FOUR_TICKETS, 6000, 7000);
+    populateTicketArray(8, EIGHT_TICKETS, 7000, 8000);
+    populateTicketArray(16, SIXTEEN_TICKETS, 8000, 9000);
+    populateTicketArray(32, THIRTY_TWO_TICKETS, 9000, 10000);
+    populateTicketArray(64, SIXTY_FOUR_TICKETS, 10000, 10500);
+    // allTickets = [...t1, ...t2, ...t4, ...t8, ...t16, ...t32, ...t64];
+    res.json({ status: 'success', tickets, length: tickets.length });
   });
 
   app.get('/simulator', (req, res) => {

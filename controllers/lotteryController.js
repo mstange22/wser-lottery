@@ -66,6 +66,7 @@ const doSimulation = () => {
 
 module.exports = (app, watchStatsConnection, dbConnection) => {
   app.get('/init', (req, res) => {
+    tickets = [];
     populateTicketArray(1, ONE_TICKET, 1, 4000);
     populateTicketArray(2, TWO_TICKETS, 4000, 6000);
     populateTicketArray(4, FOUR_TICKETS, 6000, 7000);

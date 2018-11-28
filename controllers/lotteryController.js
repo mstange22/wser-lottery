@@ -87,7 +87,7 @@ module.exports = (app, watchStatsConnection, dbConnection) => {
     tickets = [];
 
     // call populateTicketArray for each ticket group.
-    // NOTE: refactoring further got messy and required a map of count/upper/lower values.  This seemed more concise.
+    // NOTE: refactoring further got messy and required a map of count/upper/lower values.  This seemed more concise for a one-off exercise.
     populateTicketArray(1, ONE_TICKET, 1, 4000);
     populateTicketArray(2, TWO_TICKETS, 4000, 6000);
     populateTicketArray(4, FOUR_TICKETS, 6000, 7000);
